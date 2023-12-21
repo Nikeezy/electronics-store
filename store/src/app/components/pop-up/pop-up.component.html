@@ -1,0 +1,16 @@
+<div class="flex flex-col p-5 space-y-5">
+    <h2 class="text-lg text-[#1D232C] font-medium">{{ data.title }}</h2>
+    <div>
+        <p>{{ data.message }}</p>
+    </div>
+    <div class="flex justify-center items-center space-x-2">
+        <button class="inline-flex text-white items-center justify-center py-[10px] px-5 rounded-3xl text-sm font-normal w-1/2" (click)="onConfirmClick()"
+        [ngClass]="{
+            'bg-[#319DFF]': this.data.actionType === 'login',
+            'bg-[#E4003F]':  this.data.actionType === 'delete',
+            'bg-[#0DA678]':  this.data.actionType === 'purchase'
+        }"
+        >{{ data.confirmLabel }}</button>
+        <button class="inline-flex items-center justify-center py-[10px] px-5 rounded-3xl text-sm font-normal bg-[#EEF0F4] w-1/2" (click)="onCancelClick()">{{ data.cancelLabel }}</button>
+    </div>
+</div>

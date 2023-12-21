@@ -1,0 +1,59 @@
+<div class="max-w-[1440px] mx-auto mt-10">
+    <div class="flex justify-between space-x-5">
+        <app-filter class="w-1/5"></app-filter>
+        <div class="flex flex-col space-y-5 w-4/5">
+            <div class="flex flex-col items-center space-y-40 w-full">
+                <div class="p-5 flex items-center justify-between border-[#EEF0F4] border-[1px] rounded-md w-full">
+                    <h2 class="text-[#1D232C] text-3xl font-medium">{{ category ? getRussianCategoryName(category) : 'Все товары' }}</h2>
+                    <p *ngIf="!isLoading" class="font-normal text-sm text-[#586A84]">Отображаются <span class="text-[#1D232C] font-medium">{{ displayedFrom }}</span> - <span class="text-[#1D232C] font-medium">{{ displayedTo }}</span> из <span class="text-[#1D232C] font-medium">{{ totalCount }}</span></p>
+                </div>
+                <div class="px-5" *ngIf="!products?.length && !isLoading">
+                    <span>Товары отсутствуют</span>
+                </div>
+                <div class="px-5" *ngIf="isLoading">
+                    <div class="w-20 h-20 border-4 border-t-[#0077E4] border-solid rounded-full animate-spin"></div>                   
+                </div>
+            </div>
+            <div *ngIf="products && category" class="flex flex-col space-y-5">
+                <app-product
+                *ngFor="let product of products | paginate: { id: 'shop-pagination', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalCount }"
+                [product]="product"
+                [category]="category"
+                >
+                </app-product>
+            </div>
+            <div *ngIf="totalCount > itemsPerPage" class="flex items-center justify-end border-[#EEF0F4] border-[1px] rounded-md px-5 py-3">
+                <pagination-template #p="paginationApi"
+                (pageChange)="onPageChange($event)"
+                id="shop-pagination"
+                class="flex items-center space-x-[10px]"
+                >
+                    <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                        <button class="flex items-center justify-center w-9 h-9" *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                            <svg width="11" height="18" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.74313 1.22269C9.35263 0.832193 8.71976 0.831847 8.32891 1.22269L1.25785 8.29376C0.867004 8.6846 0.867349 9.31747 1.25785 9.70797L8.32891 16.779C8.5826 17.0327 8.93909 17.1213 9.26545 17.0444C9.4405 17.004 9.6064 16.9158 9.74313 16.779C10.134 16.3882 10.1336 15.7553 9.74313 15.3648L3.37917 9.00086L9.74313 2.6369C10.134 2.24606 10.1336 1.61319 9.74313 1.22269Z" fill="#586A84"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                        <button class="flex items-center justify-center rounded-full w-9 h-9 bg-[#EEF0F4]" (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                            <span class="text-sm font-normal text-[#586A84]">{{ page.label }}</span>
+                        </button>
+                        <div class="flex items-center justify-center rounded-full w-9 h-9 bg-[#319DFF]" *ngIf="p.getCurrent() === page.value">
+                            <span class="text-sm font-normal text-white">{{ page.label }}</span>
+                        </div>
+                    </div>
+
+                    <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                        <button class="flex items-center justify-center w-9 h-9" *ngIf="!p.isLastPage()" (click)="p.next()">
+                            <svg width="11" height="18" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.25785 16.7782C1.64834 17.1687 2.28122 17.169 2.67206 16.7782L9.74313 9.70712C10.134 9.31628 10.1336 8.6834 9.74313 8.29291L2.67206 1.22184C2.41837 0.968154 2.06189 0.879593 1.73552 0.956501C1.56047 0.996898 1.39457 1.08511 1.25785 1.22184C0.867004 1.61268 0.867349 2.24556 1.25785 2.63605L7.62181 9.00001L1.25785 15.364C0.867004 15.7548 0.867349 16.3877 1.25785 16.7782Z" fill="#586A84"/>
+                            </svg>
+                        </button>
+                    </div>
+                </pagination-template>
+            </div>
+        </div>
+    </div>
+</div>

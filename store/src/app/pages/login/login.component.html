@@ -1,0 +1,55 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-2xl font-semibold mb-4">Авторизация</h2>
+        <div class="mb-4">
+            <label for="email" class="text-gray-600">Электронная почта</label>
+            <input 
+                id="email"
+                formControlName="email"
+                class="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-md"
+                placeholder="Введите ваш адрес электронной почты" 
+                type="email" 
+                required
+            >
+            <div *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || submitted)" class="text-red-500 mt-1">
+                Электронная почта обязательна
+            </div>
+            <div *ngIf="loginForm.get('email')?.hasError('email') && (loginForm.get('email')?.touched || submitted)" class="text-red-500 mt-1">
+                Неверный формат электронной почты
+            </div>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="text-gray-600">Пароль</label>
+            <input 
+                id="password"
+                formControlName="password"
+                maxlength="30"
+                class="w-full px-4 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-md"
+                placeholder="Введите ваш пароль" 
+                type="password" 
+                required
+            >
+            <div *ngIf="loginForm.get('password')?.hasError('required') && (loginForm.get('password')?.touched || submitted)" class="text-red-500 mt-1">
+                Пароль обязателен
+            </div>
+            <div *ngIf="loginForm.get('password')?.hasError('minlength') && (loginForm.get('password')?.touched || submitted)" class="text-red-500 mt-1">
+                Пароль должен содержать не менее 8 символов
+            </div>
+            <div *ngIf="loginForm.get('password')?.hasError('maxLength') && (loginForm.get('password')?.touched || submitted)" class="text-red-500 mt-1">
+                Пароль должен содержать не более 30 символов
+            </div>
+            <div *ngIf="errorMessage" class="text-red-500 mt-2">
+                {{ errorMessage }}
+            </div>
+        </div>
+        <button 
+            type="submit" 
+            class="w-full bg-[#319DFF] text-white p-3 rounded-md hover:bg-[#0077E4] focus:outline-none focus:bg-[#0077E4]"
+        >
+            Войти
+        </button>
+        <div class="text-center mt-4">
+            <p>Нет учётной записи? <a routerLink="/register" class="text-[#319DFF]">Зарегистрироваться</a>.</p>
+        </div>
+    </form>
+</div>

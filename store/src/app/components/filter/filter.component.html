@@ -1,0 +1,62 @@
+<div class="flex flex-col space-y-5">
+    <div class="flex justify-center max-w-[722px] w-full">
+        <input [(ngModel)]="productName" type="text" placeholder="Поиск товаров" class="w-full font-normal text-sm placeholder-[#7D8FA9] rounded-l-[20px] px-3 py-[10px] border-[#319DFF] border-[1px] focus:outline-none">
+        <button class="bg-[#319DFF] px-[10px] rounded-r-[20px]" (click)="getFilterParams()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.8098 15.223C10.6712 17.6655 6.13243 17.4452 3.24738 14.5601C0.1234 11.4361 0.123141 6.37063 3.24738 3.2464C6.37161 0.122164 11.4371 0.122424 14.5611 3.2464C17.4461 6.13145 17.6665 10.6702 15.224 13.8088L18.8037 17.3885C18.9915 17.5764 19.0897 17.8207 19.096 18.0658C19.1038 18.3315 19.0066 18.5999 18.8037 18.8027C18.4132 19.1932 17.7804 19.1936 17.3895 18.8027L13.8098 15.223ZM13.1469 4.66061C15.4905 7.00428 15.49 10.8027 13.1469 13.1459C10.8037 15.489 7.00526 15.4896 4.66159 13.1459C2.31792 10.8022 2.31843 7.00377 4.66159 4.66061C7.00474 2.31746 10.8032 2.31694 13.1469 4.66061Z" fill="white"/>
+            </svg>
+        </button>
+    </div>
+    <div class="border-[#EEF0F4] border-[1px] rounded-md">
+        <button (click)="toggleFilterList('price')" class="p-5 w-full text-left rounded-md focus:outline-none text-[#1D232C] duration-200 hover:bg-[#319DFF] hover:text-white">
+            <span class="text-base font-medium">Цена</span>
+        </button>
+        <div *ngIf="isFilterListOpen('price')" class="p-5 flex flex-col space-y-5">
+            <div class="flex flex-col space-y-2">
+                <label for="minPrice">Минимальная цена:</label>
+                <input class="placeholder-[#7D8FA9] pl-2 py-1 border-[#319DFF] border-[1px] focus:outline-none" type="number" name="minPrice" id="minPrice" [(ngModel)]="minPrice" min="1" max="1000000">
+            </div>
+            <div class="flex flex-col space-y-2">
+                <label for="maxPrice">Максимальная цена:</label>
+                <input class="placeholder-[#7D8FA9] pl-2 py-1 border-[#319DFF] border-[1px] focus:outline-none" type="number" name="maxPrice" id="maxPrice" [(ngModel)]="maxPrice" min="1" max="1000000">
+            </div>
+        </div>
+    </div>
+    <div class="border-[#EEF0F4] border-[1px] rounded-md">
+        <button (click)="toggleFilterList('rating')" class="p-5 w-full text-left rounded-md focus:outline-none text-[#1D232C] duration-200 hover:bg-[#319DFF] hover:text-white">
+            <span class="text-base font-medium">Рейтинг</span>
+        </button>
+        
+        <div *ngIf="isFilterListOpen('rating')" class="p-5 flex flex-col space-y-5">
+            <label *ngFor="let ratingOption of [5, 4, 3, 2, 1]">
+                <input type="radio" name="rating" [(ngModel)]="rating" [value]="ratingOption">
+                {{ ratingOption !== 5 ? '>' : ''}}{{ ratingOption }}
+            </label>
+        </div>
+    </div>
+    <div *ngFor="let filter of filters | keyvalue" class="border-[#EEF0F4] border-[1px] rounded-md">
+        <button (click)="toggleFilterList(filter.key)" class="p-5 w-full text-left rounded-md focus:outline-none text-[#1D232C] duration-200 hover:bg-[#319DFF] hover:text-white">
+            <span class="text-base font-medium">{{filter.key}}</span>
+        </button>
+        
+        <div *ngIf="isFilterListOpen(filter.key)" class="p-5 flex flex-col space-y-5">
+            <div *ngFor="let value of filter.value">
+                <label class="flex items-center">
+                    <input class="mr-2" type="checkbox" (change)="toggleFilterSelection(filter.key, value)" [checked]="filterParams[filter.key].includes(value)">
+                    {{ value }}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showFilterNotification">
+        <p class="text-sm font-normal text-[#1D232C]">У вас есть неприменённые фильтры. Нажмите на кнопку "Применить", чтобы увидеть отфильтрованные товары.</p>
+    </div>
+    <div class="flex justify-between items-center space-x-2">
+        <button class="inline-flex items-center justify-center py-[10px] px-5 rounded-3xl w-1/2 text-sm font-normal bg-[#319DFF]" (click)="getFilterParams()">
+            <span class="text-sm font-normal text-white">Применить</span>
+        </button>
+        <button class="inline-flex items-center justify-center py-[10px] px-5 rounded-3xl w-1/2 text-sm font-normal bg-[#EEF0F4]" (click)="resetFilter()">
+            <span class="text-sm font-normal text-[#1D232C]">Сбросить</span>
+        </button>
+    </div>
+</div>

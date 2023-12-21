@@ -1,0 +1,10 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Angular
+*.ngfactory.ts
+*.ngsummary.json
+
+# TypeScript
+*.js.map

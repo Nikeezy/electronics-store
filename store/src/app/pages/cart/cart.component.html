@@ -1,0 +1,39 @@
+<div class="max-w-[1440px] mx-auto mt-10">
+    <div class="flex justify-between space-x-5">
+        <div class="flex flex-col space-y-5 w-4/5">
+            <div class="flex flex-col items-center space-y-40 w-full">
+                <div class="p-5 border-[#EEF0F4] border-[1px] rounded-md w-full">
+                    <h2 class="text-[#1D232C] text-3xl font-medium">Корзина</h2>
+                </div>
+                <div class="px-5" *ngIf="!products?.length && !isLoading">
+                    <span>Ваша корзина пуста</span>
+                </div>
+                <div class="px-5" *ngIf="isLoading">
+                    <div class="w-20 h-20 border-4 border-t-[#0077E4] border-solid rounded-full animate-spin"></div> 
+                </div>
+            </div>
+            <div class="flex flex-col space-y-5">
+                <app-product
+                *ngFor="let product of products"
+                [product]="product"
+                >
+                </app-product>
+            </div>
+        </div>
+        <div *ngIf="products?.length" class="p-5 flex flex-col space-y-5 border-[#EEF0F4] border-[1px] rounded-md w-1/5">
+            <span class="text-lg text-[#1D232C] font-medium">Итого:</span>
+            <div class="flex flex-col space-y-5">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-[#1D232C]">{{ getTotalCount() + ' ' + getItemsWord(getTotalCount()) }}</span>
+                    <span class="font-medium text-[#1D232C]">{{ getTotalAmount() | number:'1.' }} ₽</span>
+                </div>
+                <span>Пункт выдачи: г. Белгород, ул. Костюкова, д. 44</span>
+                <span>Условия оплаты: оплата при получении</span>
+                <span>В настоящий момент отсутствует возможность проведения безналичных платежей.</span>
+                <button (click)="makePurchase()" class="inline-flex items-center justify-center py-[10px] px-5 bg-[#0DA678] rounded-3xl">
+                    <span class="text-sm font-normal text-white">Оформить заказ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div *ngIf="category" class="py-5 border-[#EEF0F4] border-[1px] rounded-md bg-white relative">
+    <div class="flex flex-col space-y-5 items-center">
+        <span>{{getRussianCategoryName(category.category_name)}}</span>
+        <div>
+            <img [src]="category.category_picture" [alt]="category.category_name">
+        </div>
+    </div>
+    <a class="px-3 py-[14px] bg-[#DDE1E8] rounded-full absolute bottom-5 right-5" [routerLink]="['/shop', category.category_name]">
+        <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5234 4.52813C12.7839 4.78871 12.7839 5.21066 12.5234 5.47092L8.7526 9.24216C8.49219 9.50249 8.07031 9.50274 7.8099 9.24216C7.54818 8.98166 7.54948 8.5597 7.8099 8.29937L10.4427 5.66623H0.947917C0.579427 5.66623 0.28125 5.36773 0.28125 4.99956C0.28125 4.6314 0.579427 4.3329 0.947917 4.3329L10.4427 4.3329L7.8099 1.69976C7.54818 1.43918 7.54948 1.01722 7.8099 0.756887C8.07031 0.496552 8.49219 0.496308 8.7526 0.756887L12.5234 4.52813Z" fill="white"/>
+        </svg>
+    </a>
+</div>
